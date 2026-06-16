@@ -4,10 +4,6 @@
 #include <fstream>
 #include <cctype>
 
-const std::string RESET = "\033[0m";
-const std::string RED = "\033[1;31m";
-const std::string GREEN = "\033[1;32m";
-const std::string YELLOW = "\033[1;33m";
 
 std::vector<std::vector<std::string>> loadMaps(std::string filename)
 {
@@ -54,9 +50,10 @@ void clearScreen()
 
 void waitForEnter()
 {
-    std::cout << YELLOW << "\n[Press ENTER to continue...]\n" << RESET;
-    std::cin.ignore(10000, '\n'); 
-    std::cin.get();               
+    std::cout << YELLOW << "\n[Press ENTER to continue...]\n"
+              << RESET;
+    std::cin.ignore(10000, '\n');
+    std::cin.get();
 }
 
 void mapvisual(Hero &player, std::vector<std::string> &map)
@@ -109,7 +106,8 @@ bool encounter(Hero &player, Enemy &enemy)
 
             if (enemy.getHitpoints() == 0)
             {
-                std::cout << RED << enemy.getName() << YELLOW << " has been slain!\n" << RESET;
+                std::cout << RED << enemy.getName() << YELLOW << " has been slain!\n"
+                          << RESET;
                 return true;
             }
             std::cout << RED << enemy.getName() << RESET << " strikes back for " << YELLOW << enemy.getDamage() - player.getDefense() << RESET << " damage!\n";
@@ -126,12 +124,14 @@ bool encounter(Hero &player, Enemy &enemy)
             }
             else
             {
-                std::cout << YELLOW << "Hero's ultimate power vanishes, he feels no power surging through him anymore.\n" << RESET;
+                std::cout << YELLOW << "Hero's ultimate power vanishes, he feels no power surging through him anymore.\n"
+                          << RESET;
             }
 
             if (enemy.getHitpoints() == 0)
             {
-                std::cout << RED << enemy.getName() << YELLOW << " has been slain!\n" << RESET;
+                std::cout << RED << enemy.getName() << YELLOW << " has been slain!\n"
+                          << RESET;
                 return true;
             }
             std::cout << RED << enemy.getName() << RESET << " strikes back for " << YELLOW << enemy.getDamage() - player.getDefense() << RESET << " damage!\n";
@@ -144,7 +144,8 @@ bool encounter(Hero &player, Enemy &enemy)
             return false;
 
         default:
-            std::cout << YELLOW << "Hero's head got all messed up with the things he can do and wastes his turn.\n" << RESET;
+            std::cout << YELLOW << "Hero's head got all messed up with the things he can do and wastes his turn.\n"
+                      << RESET;
             std::cout << RED << enemy.getName() << RESET << " strikes confused hero for " << YELLOW << enemy.getDamage() - player.getDefense() << RESET << " damage!\n";
             player.takeDamage(enemy.getDamage());
             break;
@@ -155,17 +156,18 @@ bool encounter(Hero &player, Enemy &enemy)
 
 void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps)
 {
-    int currentMapIndex = 0;
     bool inDungeon = true;
     char moveChoice;
 
-    while (inDungeon)
+    std::vector<std::string> currentMap = allMaps[(player.getFloor() - 1) % allMaps.size()];
+    bool floorCleared = false;
+
+    while (!floorCleared && inDungeon)
     {
-        std::vector<std::string> &currentMap = allMaps[currentMapIndex];
 
         clearScreen();
 
-        std::cout << "\n ---- Dungeon (Level " << currentMapIndex + 1 << ") ---- \n";
+        std::cout << "\n ---- Dungeon (Floor " << player.getFloor() << "/100) ---- \n";
 
         mapvisual(player, currentMap);
 
@@ -197,7 +199,8 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps)
             {
                 std::cin.clear();
                 std::cin.ignore(10000, '\n');
-                std::cout << RED << "ERROR: Invalid number\n" << RESET;
+                std::cout << RED << "ERROR: Invalid number\n"
+                          << RESET;
                 waitForEnter();
             }
             else if (itemChoice > 0)
@@ -215,28 +218,37 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps)
         }
         else
         {
-            std::cout << RED << "ERROR: Wrong input. Try again.\n" << RESET;
+            std::cout << RED << "ERROR: Wrong input. Try again.\n"
+                      << RESET;
             waitForEnter();
             continue;
         }
 
         if (currentMap[targetY][targetX] == '*')
         {
-            std::cout << YELLOW << "Your clumsy feet stumbled upon a wall. Try another way.\n" << RESET;
+            std::cout << YELLOW << "Your clumsy feet stumbled upon a wall. Try another way.\n"
+                      << RESET;
             waitForEnter();
         }
         else if (currentMap[targetY][targetX] == 'E')
         {
-            std::cout << RED << "You encountered an enemy! Get ready for a bloody fight.\n" << RESET;
+            std::cout << RED << "You encountered an enemy! Get ready for a bloody fight.\n"
+                      << RESET;
             waitForEnter();
 
-            Enemy enemy("Enemy", 30, 8, 2, 50);
+            int enemyHP = 25 + (player.getFloor() * 5);  // Patro 1: 30 HP, Patro 10: 75 HP...
+            int enemyDMG = 6 + (player.getFloor() * 2);  // Patro 1: 8 DMG, Patro 10: 26 DMG...
+            int enemyDEF = 1 + (player.getFloor() * 1);  // Patro 1: 2 DEF, Patro 10: 11 DEF...
+            int enemyXP = 40 + (player.getFloor() * 10); // Patro 1: 50 XP, Patro 10: 140 XP...
+
+            Enemy enemy("Monster (F" + std::to_string(player.getFloor()) + ")", enemyHP, enemyDMG, enemyDEF, enemyXP);
 
             bool won = encounter(player, enemy);
 
             if (won)
             {
-                std::cout << GREEN << "You won the battle!\n" << RESET;
+                std::cout << GREEN << "You won the battle!\n"
+                          << RESET;
                 player.gainExp(enemy.getXpReward());
                 currentMap[targetY][targetX] = '.';
                 player.setPosition(targetX, targetY);
@@ -244,7 +256,8 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps)
             }
             else if (player.getHitpoints() <= 0)
             {
-                std::cout << RED << "You died... GAME OVER.\n" << RESET;
+                std::cout << RED << "You died... GAME OVER.\n"
+                          << RESET;
                 waitForEnter();
                 inDungeon = false;
             }
@@ -255,16 +268,20 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps)
         }
         else if (currentMap[targetY][targetX] == 'D')
         {
-            std::cout << YELLOW << "You open the creaky door and enter a new room...\n" << RESET;
-            waitForEnter();
-            currentMapIndex++;
+            std::cout << YELLOW << "You open the creaky door and enter a new room...\n"
+                      << RESET; 
 
-            if (currentMapIndex >= allMaps.size())
+            waitForEnter();
+
+            player.setFloor(player.getFloor() + 1);
+            floorCleared = true;
+
+            if (player.getFloor() > 100)
             {
-                std::cout << GREEN << "Congratulations! You have conquered all levels of the dungeon and emerged victorious!\n" << RESET;
+                std::cout << GREEN << "Congratulations! You have conquered all levels of the dungeon and emerged victorious!\n"
+                          << RESET;
                 waitForEnter();
                 inDungeon = false;
-                continue;
             }
             else
             {

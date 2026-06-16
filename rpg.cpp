@@ -11,6 +11,29 @@
 #include "Enemy.h"
 #include "Game.h"
 
+void saveGame(Hero &player)
+{
+    // Otevřeme soubor pro zápis (pokud neexistuje, C++ ho vytvoří)
+    std::ofstream file("savegame.txt");
+
+    if (file.is_open())
+    {
+        // Zapisujeme data pod sebe na samostatné řádky
+        file << player.getName() << "\n";
+        file << player.getHitpoints() << "\n";
+        file << player.getDamage() << "\n";
+        file << player.getDefense() << "\n";
+        file << player.getFloor() << "\n";
+
+        file.close();
+        std::cout << GREEN << "Game successfully saved!" << RESET << "\n";
+    }
+    else
+    {
+        std::cout << RED << "ERROR: Nepodarilo se vytvorit soubor savegame.txt" << RESET << "\n";
+    }
+}
+
 int main()
 {
     std::cout << "******************************\n";
@@ -18,12 +41,14 @@ int main()
     std::cout << "******************************\n";
 
     std::vector<std::vector<std::string>> loadedMaps = loadMaps("maps.txt");
-    
+
     if (loadedMaps.empty())
     {
         std::cout << "ERROR: Mapa nenactena, zkontroluj maps.txt\n";
         return 1;
     }
+
+    std::unique_ptr<Hero> activeHero = nullptr;
 
     bool run = true;
     while (run)
@@ -42,22 +67,30 @@ int main()
 
             std::string heroName;
             std::cin >> heroName;
-            Hero player(heroName, 100, 15, 5, 30);
 
-            
+            activeHero = std::make_unique<Hero>(heroName, 100, 15, 5, 30);
+
             std::cout << "******************************\n";
             std::cout << "Hero " << heroName << " embarks fearlessly into the dungeon!\n";
             std::cout << "******************************\n";
 
-            player.setPosition(1, 1);
+            activeHero->setPosition(1, 1);
 
             waitForEnter();
-            dungeon(player, loadedMaps);
+            dungeon(*activeHero, loadedMaps);
             break;
         }
 
         case 'S':
-            /**/
+            if (!activeHero)
+            {
+                saveGame(*activeHero);
+            }
+            else
+            {
+                std::cout << RED << "ERROR: No active hero to save. Start a new run first.\n"
+                          << RESET;
+            }
             break;
 
         case 'L':

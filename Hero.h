@@ -18,6 +18,7 @@ private:
     int experienceNeeded;
     int x;
     int y;
+    int currentFloor;
     std::vector<std::unique_ptr<Item>> inventory;
 
 public:
@@ -37,6 +38,13 @@ public:
 
     int getX();
     int getY();
+
+    int getFloor();
+
+    int setFloor(int floor);
+
+    int getXP();
+    int getLVL();
 
 private:
     void levelup();

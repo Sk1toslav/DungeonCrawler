@@ -7,6 +7,7 @@ Hero::Hero(std::string name, int hitpoints, int damage, int defense, int Ultimat
     this->level = 1;
     this->experience = 0;
     this->experienceNeeded = 100;
+    this->currentFloor = 1;
 
     this->inventory.push_back(std::make_unique<Potion>("Minor Health Potion", 30)); /* TEST PRO SHOW INVENTARE */
 
@@ -101,3 +102,15 @@ void Hero::levelup()
     std::cout << "He feels more power surging through him.\n";
     std::cout << "******************************\n\n";
 }
+
+int Hero::getFloor() { return this->currentFloor; }
+
+int Hero::setFloor(int floor)
+{
+    this->currentFloor = floor;
+    return this->currentFloor;
+}
+
+int Hero::getXP() { return this->experience; }
+
+int Hero::getLVL() { return this->level; }
