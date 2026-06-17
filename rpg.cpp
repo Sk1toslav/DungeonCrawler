@@ -26,11 +26,43 @@ void saveGame(Hero &player)
         file << player.getFloor() << "\n";
 
         file.close();
-        std::cout << GREEN << "Game successfully saved!" << RESET << "\n";
+        std::cout << GREEN << "Game successfully saved." << RESET << "\n";
     }
     else
     {
         std::cout << RED << "ERROR: Nepodarilo se vytvorit soubor savegame.txt" << RESET << "\n";
+    }
+}
+
+std::unique_ptr<Hero> loadGame()
+{
+    std::ifstream file("savegame.txt");
+
+    if (file.is_open())
+    {
+        std::string loadedName;
+        int loadedHP, loadedDMG, loadedDEF, loadedFloor;
+
+        file >> loadedName;
+        file >> loadedHP;
+        file >> loadedDMG;
+        file >> loadedDEF;
+        file >> loadedFloor;
+
+        file.close();
+
+        auto loadedHero = std::make_unique<Hero>(loadedName, loadedHP, loadedDMG, loadedDEF, 30);
+
+        loadedHero->setFloor(loadedFloor);
+
+        std::cout << GREEN << "Game successfully loaded! Welcome back, " << loadedName << "." << RESET << "\n";
+
+        return loadedHero;
+    }
+    else
+    {
+        std::cout << RED << "ERROR: No save file found." << RESET << "\n";
+        return nullptr;
     }
 }
 
@@ -82,7 +114,7 @@ int main()
         }
 
         case 'S':
-            if (!activeHero)
+            if (activeHero != nullptr)
             {
                 saveGame(*activeHero);
             }
@@ -94,9 +126,19 @@ int main()
             break;
 
         case 'L':
-            /**/
-            break;
+        {
+            std::unique_ptr<Hero> loadedPlayer = loadGame();
 
+            if (loadedPlayer != nullptr)
+            {
+                activeHero = std::move(loadedPlayer);
+
+                activeHero->setPosition(1, 1);
+                waitForEnter();
+                dungeon(*activeHero, loadedMaps);
+            }
+            break;
+        }
         case 'E':
             std::cout << "Exiting game..\n";
             run = false;

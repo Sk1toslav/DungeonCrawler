@@ -4,7 +4,6 @@
 #include <fstream>
 #include <cctype>
 
-
 std::vector<std::vector<std::string>> loadMaps(std::string filename)
 {
     std::vector<std::vector<std::string>> allMaps;
@@ -159,133 +158,135 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps)
     bool inDungeon = true;
     char moveChoice;
 
-    std::vector<std::string> currentMap = allMaps[(player.getFloor() - 1) % allMaps.size()];
-    bool floorCleared = false;
-
-    while (!floorCleared && inDungeon)
+    while (inDungeon)
     {
+        std::vector<std::string> currentMap = allMaps[(player.getFloor() - 1) % allMaps.size()];
+        bool floorCleared = false;
 
-        clearScreen();
-
-        std::cout << "\n ---- Dungeon (Floor " << player.getFloor() << "/100) ---- \n";
-
-        mapvisual(player, currentMap);
-
-        std::cout << "Move (W/A/S/D) | Inventory (I) | Quit to menu (Q)\n";
-        std::cin >> moveChoice;
-
-        moveChoice = toupper(moveChoice);
-
-        int targetX = player.getX();
-        int targetY = player.getY();
-
-        if (moveChoice == 'W')
-            targetY--;
-        else if (moveChoice == 'S')
-            targetY++;
-        else if (moveChoice == 'A')
-            targetX--;
-        else if (moveChoice == 'D')
-            targetX++;
-        else if (moveChoice == 'I')
+        while (!floorCleared && inDungeon)
         {
-            player.showInventory();
-            std::cout << "Which item do you intend to use? (0) Cancel \n";
+            clearScreen();
 
-            int itemChoice;
-            std::cin >> itemChoice;
+            std::cout << "\n ---- Dungeon (Floor " << player.getFloor() << "/100) ---- \n";
 
-            if (std::cin.fail())
+            mapvisual(player, currentMap);
+
+            std::cout << "Move (W/A/S/D) | Inventory (I) | Quit to menu (Q)\n";
+            std::cin >> moveChoice;
+
+            moveChoice = toupper(moveChoice);
+
+            int targetX = player.getX();
+            int targetY = player.getY();
+
+            if (moveChoice == 'W')
+                targetY--;
+            else if (moveChoice == 'S')
+                targetY++;
+            else if (moveChoice == 'A')
+                targetX--;
+            else if (moveChoice == 'D')
+                targetX++;
+            else if (moveChoice == 'I')
             {
-                std::cin.clear();
-                std::cin.ignore(10000, '\n');
-                std::cout << RED << "ERROR: Invalid number\n"
-                          << RESET;
-                waitForEnter();
+                player.showInventory();
+                std::cout << "Which item do you intend to use? (0) Cancel \n";
+
+                int itemChoice;
+                std::cin >> itemChoice;
+
+                if (std::cin.fail())
+                {
+                    std::cin.clear();
+                    std::cin.ignore(10000, '\n');
+                    std::cout << RED << "ERROR: Invalid number\n"
+                              << RESET;
+                    waitForEnter();
+                }
+                else if (itemChoice > 0)
+                {
+                    player.useItemFromInventory(itemChoice);
+                    waitForEnter();
+                }
+                continue;
             }
-            else if (itemChoice > 0)
+            else if (moveChoice == 'Q')
             {
-                player.useItemFromInventory(itemChoice);
-                waitForEnter();
-            }
-            continue;
-        }
-        else if (moveChoice == 'Q')
-        {
-            std::cout << "Returning to main menu.\n";
-            inDungeon = false;
-            continue;
-        }
-        else
-        {
-            std::cout << RED << "ERROR: Wrong input. Try again.\n"
-                      << RESET;
-            waitForEnter();
-            continue;
-        }
-
-        if (currentMap[targetY][targetX] == '*')
-        {
-            std::cout << YELLOW << "Your clumsy feet stumbled upon a wall. Try another way.\n"
-                      << RESET;
-            waitForEnter();
-        }
-        else if (currentMap[targetY][targetX] == 'E')
-        {
-            std::cout << RED << "You encountered an enemy! Get ready for a bloody fight.\n"
-                      << RESET;
-            waitForEnter();
-
-            int enemyHP = 25 + (player.getFloor() * 5);  // Patro 1: 30 HP, Patro 10: 75 HP...
-            int enemyDMG = 6 + (player.getFloor() * 2);  // Patro 1: 8 DMG, Patro 10: 26 DMG...
-            int enemyDEF = 1 + (player.getFloor() * 1);  // Patro 1: 2 DEF, Patro 10: 11 DEF...
-            int enemyXP = 40 + (player.getFloor() * 10); // Patro 1: 50 XP, Patro 10: 140 XP...
-
-            Enemy enemy("Monster (F" + std::to_string(player.getFloor()) + ")", enemyHP, enemyDMG, enemyDEF, enemyXP);
-
-            bool won = encounter(player, enemy);
-
-            if (won)
-            {
-                std::cout << GREEN << "You won the battle!\n"
-                          << RESET;
-                player.gainExp(enemy.getXpReward());
-                currentMap[targetY][targetX] = '.';
-                player.setPosition(targetX, targetY);
-                waitForEnter();
-            }
-            else if (player.getHitpoints() <= 0)
-            {
-                std::cout << RED << "You died... GAME OVER.\n"
-                          << RESET;
-                waitForEnter();
+                std::cout << "Returning to main menu.\n";
                 inDungeon = false;
-            }
-        }
-        else if (currentMap[targetY][targetX] == '.')
-        {
-            player.setPosition(targetX, targetY);
-        }
-        else if (currentMap[targetY][targetX] == 'D')
-        {
-            std::cout << YELLOW << "You open the creaky door and enter a new room...\n"
-                      << RESET; 
-
-            waitForEnter();
-
-            player.setFloor(player.getFloor() + 1);
-            floorCleared = true;
-
-            if (player.getFloor() > 100)
-            {
-                std::cout << GREEN << "Congratulations! You have conquered all levels of the dungeon and emerged victorious!\n"
-                          << RESET;
-                waitForEnter();
-                inDungeon = false;
+                continue;
             }
             else
             {
-                player.setPosition(1, 1);
+                std::cout << RED << "ERROR: Wrong input. Try again.\n"
+                          << RESET;
+                waitForEnter();
+                continue;
+            }
+
+            if (currentMap[targetY][targetX] == '*')
+            {
+                std::cout << YELLOW << "Your clumsy feet stumbled upon a wall. Try another way.\n"
+                          << RESET;
+                waitForEnter();
+            }
+            else if (currentMap[targetY][targetX] == 'E')
+            {
+                std::cout << RED << "You encountered an enemy! Get ready for a bloody fight.\n"
+                          << RESET;
+                waitForEnter();
+
+                int enemyHP = 25 + (player.getFloor() * 5);  // Patro 1: 30 HP, Patro 10: 75 HP...
+                int enemyDMG = 6 + (player.getFloor() * 2);  // Patro 1: 8 DMG, Patro 10: 26 DMG...
+                int enemyDEF = 1 + (player.getFloor() * 1);  // Patro 1: 2 DEF, Patro 10: 11 DEF...
+                int enemyXP = 40 + (player.getFloor() * 10); // Patro 1: 50 XP, Patro 10: 140 XP...
+
+                Enemy enemy("Monster (F" + std::to_string(player.getFloor()) + ")", enemyHP, enemyDMG, enemyDEF, enemyXP);
+
+                bool won = encounter(player, enemy);
+
+                if (won)
+                {
+                    std::cout << GREEN << "You won the battle!\n"
+                              << RESET;
+                    player.gainExp(enemy.getXpReward());
+                    currentMap[targetY][targetX] = '.';
+                    player.setPosition(targetX, targetY);
+                    waitForEnter();
+                }
+                else if (player.getHitpoints() <= 0)
+                {
+                    std::cout << RED << "You died... GAME OVER.\n"
+                              << RESET;
+                    waitForEnter();
+                    inDungeon = false;
+                }
+            }
+            else if (currentMap[targetY][targetX] == '.')
+            {
+                player.setPosition(targetX, targetY);
+            }
+            else if (currentMap[targetY][targetX] == 'D')
+            {
+                std::cout << YELLOW << "You open the creaky door and enter a new room...\n"
+                          << RESET;
+
+                waitForEnter();
+
+                player.setFloor(player.getFloor() + 1);
+                floorCleared = true;
+
+                if (player.getFloor() > 100)
+                {
+                    std::cout << GREEN << "Congratulations! You have conquered all levels of the dungeon and emerged victorious!\n"
+                              << RESET;
+                    waitForEnter();
+                    inDungeon = false;
+                }
+                else
+                {
+                    player.setPosition(1, 1);
+                }
             }
         }
     }

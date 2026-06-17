@@ -96,6 +96,7 @@ void Hero::levelup()
     this->hitpoints = this->maxHitpoints;
     this->damage += 5;
     this->defense += 2;
+    this->UltimateCount = 3;
 
     std::cout << "******************************\n";
     std::cout << "Hero '" << this->name << "' has ascended to level " << this->level << "!\n";
