@@ -248,6 +248,45 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
                           << RESET;
                 waitForEnter();
             }
+            if (currentMap[targetY][targetX] == 'C')
+            {
+                std::cout << YELLOW << "You were lucky enough to find an treasure chest!\n"
+                          << RESET;
+
+                int roll = rand() % 3;
+
+                std::string itemName;
+                int itemStat;
+
+                if (roll == 0)
+                {
+                    itemName = "Health Potion";
+                    itemStat = 25 + (player.getFloor() * 5);
+                    player.addItem(std::make_unique<Potion>(itemName, itemStat));
+
+                    std::cout << "In the chest you found '" << itemName << "' that restores +" << itemStat << " HP.\n";
+                }
+                if (roll == 1)
+                {
+                    itemName = "Steel Sword";
+                    itemStat = 3 + (player.getFloor() * 2);
+                    player.addItem(std::make_unique<Weapon>(itemName, itemStat));
+
+                    std::cout << "In the chest you found '" << itemName << "' that provides +" << itemStat << " DMG.\n";
+                }
+                if (roll == 3)
+                {
+                    itemName = "Hide Armor";
+                    itemStat = 1 + (player.getFloor() * 1);
+                    player.addItem(std::make_unique<Accessories>(itemName, itemStat));
+
+                    std::cout << "In the chest you found '" << itemName << "' that gives +" << itemStat << " DEF.\n";
+                }
+
+                currentMap[targetY][targetX] = '.';
+                player.setPosition(targetX, targetY);
+                waitForEnter();
+            }
             else if (currentMap[targetY][targetX] == 'E')
             {
                 std::cout << RED << "You encountered an enemy! Get ready for a bloody fight.\n"

@@ -29,6 +29,33 @@ void saveGame(Hero &player, std::vector<std::string> &currentMap)
             file << currentMap[i] << "\n";
         }
 
+        // UKLÁDÁNÍ INVENTÁŘE
+        file << player.getInventorySize() << "\n";
+        for (int i = 0; i < player.getInventorySize(); i++)
+        {
+            Item *item = player.getItem(i);
+
+                // dynamic_cast kontroluje jestli je item Potion atd..
+            if (Potion *p = dynamic_cast<Potion *>(item))
+            {
+                file << "Potion\n"
+                     << p->getHealAmount() << "\n"
+                     << p->getName() << "\n";
+            }
+            else if (Weapon *w = dynamic_cast<Weapon *>(item))
+            {
+                file << "Weapon\n"
+                     << w->getWeaponDMG() << "\n"
+                     << w->getName() << "\n";
+            }
+            else if (Accessories *a = dynamic_cast<Accessories *>(item))
+            {
+                file << "Accessories\n"
+                     << a->getAccessoryDEF() << "\n"
+                     << a->getName() << "\n";
+            }
+        }
+
         file.close();
         std::cout << GREEN << "Game successfully saved." << RESET << "\n";
     }
@@ -73,6 +100,35 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
             std::string row;
             file >> row;
             loadedMap.push_back(row);
+        }
+
+        // NAČÍTÁNÍ INVENTÁŘE
+        int invSize;
+        file >> invSize;
+
+        for (int i = 0; i < invSize; i++)
+        {
+            std::string type;
+            int stat;
+            std::string name;
+
+            file >> type;
+            file >> stat;
+
+            std::getline(file >> std::ws, name);  //std::ws ignoruje mezery
+
+            if (type == "Potion")
+            {
+                loadedHero->addItem(std::make_unique<Potion>(name, stat));
+            }
+            else if (type == "Weapon")
+            {
+                loadedHero->addItem(std::make_unique<Weapon>(name, stat));
+            }
+            else if (type == "Accessories")
+            {
+                loadedHero->addItem(std::make_unique<Accessories>(name, stat));
+            }
         }
 
         std::cout << GREEN << "Game successfully loaded! Welcome back, " << loadedName << "." << RESET << "\n";

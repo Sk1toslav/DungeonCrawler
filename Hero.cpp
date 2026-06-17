@@ -9,11 +9,11 @@ Hero::Hero(std::string name, int hitpoints, int damage, int defense, int Ultimat
     this->experienceNeeded = 100;
     this->currentFloor = 1;
 
-    this->inventory.push_back(std::make_unique<Potion>("Minor Health Potion", 30)); /* TEST PRO SHOW INVENTARE */
+    /* this->inventory.push_back(std::make_unique<Potion>("Minor Health Potion", 30));  */ /* TEST PRO SHOW INVENTARE */
 
-    this->inventory.push_back(std::make_unique<Weapon>("Rusty sword", 5)); /* TEST PRO SHOW INVENTARE */
+    /*  this->inventory.push_back(std::make_unique<Weapon>("Rusty sword", 5)); */ /* TEST PRO SHOW INVENTARE */
 
-    this->inventory.push_back(std::make_unique<Accessories>("Worn-out cape", 3)); /* TEST PRO SHOW INVENTARE */
+    /* this->inventory.push_back(std::make_unique<Accessories>("Worn-out cape", 3)); */ /* TEST PRO SHOW INVENTARE */
 }
 
 void Hero::showInventory()
@@ -123,4 +123,19 @@ void Hero::setLevel(int lvl)
 void Hero::setXP(int xp)
 {
     this->experience = xp;
+}
+
+int Hero::getInventorySize()
+{
+    return this->inventory.size();
+}
+
+Item *Hero::getItem(int index)
+{
+    return this->inventory[index].get();
+}
+
+void Hero::addItem(std::unique_ptr<Item> item)
+{
+    inventory.push_back(std::move(item));
 }

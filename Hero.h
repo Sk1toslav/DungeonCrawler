@@ -49,6 +49,10 @@ public:
     void setLevel(int lvl);
     void setXP(int xp);
 
+    int getInventorySize();
+    Item* getItem(int index);
+    void addItem(std::unique_ptr<Item> item);
+
 private:
     void levelup();
 };

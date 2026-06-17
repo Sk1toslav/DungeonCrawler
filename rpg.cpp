@@ -4,6 +4,8 @@
 #include <vector>
 #include <cctype>
 #include <memory>
+#include <ctime>
+#include <cstdlib>
 
 #include "Item.h"
 #include "Character.h"
@@ -12,9 +14,10 @@
 #include "Game.h"
 #include "SaveLoad.h"
 
-
 int main()
 {
+    srand(time(NULL));
+
     std::cout << "******************************\n";
     std::cout << "Welcome to Dungeon Crawler #1\n";
     std::cout << "******************************\n";
