@@ -14,4 +14,4 @@ void clearScreen();
 void waitForEnter();
 void mapvisual(Hero &player, std::vector<std::string> &map);
 bool encounter(Hero &player, Enemy &enemy);
-void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps);
+void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::vector<std::string> savedMap = {});

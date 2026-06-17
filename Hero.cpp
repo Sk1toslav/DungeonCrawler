@@ -113,5 +113,14 @@ int Hero::setFloor(int floor)
 }
 
 int Hero::getXP() { return this->experience; }
-
 int Hero::getLVL() { return this->level; }
+
+void Hero::setLevel(int lvl)
+{
+    this->level = lvl;
+}
+
+void Hero::setXP(int xp)
+{
+    this->experience = xp;
+}

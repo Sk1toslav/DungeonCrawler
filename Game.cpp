@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "SaveLoad.h"
 
 #include <iostream>
 #include <fstream>
@@ -153,14 +154,25 @@ bool encounter(Hero &player, Enemy &enemy)
     return false;
 }
 
-void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps)
+void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::vector<std::string> savedMap = {})
 {
     bool inDungeon = true;
     char moveChoice;
 
     while (inDungeon)
     {
-        std::vector<std::string> currentMap = allMaps[(player.getFloor() - 1) % allMaps.size()];
+        std::vector<std::string> currentMap;
+
+        if (!savedMap.empty())
+        {
+            currentMap = savedMap;
+            savedMap.clear();
+        }
+        else
+        {
+            currentMap = allMaps[(player.getFloor() - 1) % allMaps.size()];
+        }
+
         bool floorCleared = false;
 
         while (!floorCleared && inDungeon)
@@ -171,7 +183,7 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps)
 
             mapvisual(player, currentMap);
 
-            std::cout << "Move (W/A/S/D) | Inventory (I) | Quit to menu (Q)\n";
+            std::cout << "Move (W/A/S/D) | Inventory (I) | Save (V) | Quit to menu (Q)\n";
             std::cin >> moveChoice;
 
             moveChoice = toupper(moveChoice);
@@ -208,6 +220,12 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps)
                     player.useItemFromInventory(itemChoice);
                     waitForEnter();
                 }
+                continue;
+            }
+            else if (moveChoice == 'V')
+            {
+                saveGame(player, currentMap);
+                waitForEnter();
                 continue;
             }
             else if (moveChoice == 'Q')

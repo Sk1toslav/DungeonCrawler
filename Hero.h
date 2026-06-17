@@ -46,6 +46,9 @@ public:
     int getXP();
     int getLVL();
 
+    void setLevel(int lvl);
+    void setXP(int xp);
+
 private:
     void levelup();
 };
