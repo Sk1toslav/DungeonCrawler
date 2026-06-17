@@ -13,6 +13,7 @@
                 "${fileDirname}\\Hero.cpp",
                 "${fileDirname}\\Enemy.cpp",
                 "${fileDirname}\\Game.cpp",
+                "${fileDirname}\\SaveLoad.cpp",
                 "-o",
                 "${fileDirname}\\rpg.exe"
             ],
