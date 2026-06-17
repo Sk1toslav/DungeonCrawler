@@ -57,8 +57,6 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
         file >> loadedX;
         file >> loadedY;
 
-        file.close();
-
         auto loadedHero = std::make_unique<Hero>(loadedName, loadedHP, loadedDMG, loadedDEF, 30);
 
         loadedHero->setLevel(loadedlvl);
@@ -78,6 +76,7 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
         }
 
         std::cout << GREEN << "Game successfully loaded! Welcome back, " << loadedName << "." << RESET << "\n";
+        file.close();
 
         return loadedHero;
     }

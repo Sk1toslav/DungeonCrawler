@@ -154,7 +154,7 @@ bool encounter(Hero &player, Enemy &enemy)
     return false;
 }
 
-void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::vector<std::string> savedMap = {})
+void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::vector<std::string> savedMap)
 {
     bool inDungeon = true;
     char moveChoice;
