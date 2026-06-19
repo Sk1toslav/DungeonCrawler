@@ -48,12 +48,12 @@ void Character::equipWeapon(int amount)
 {
     this->damage = this->damage + amount;
 
-    std::cout << this->name << "'s smart move to use this weapon increased his damage slightly. +" << amount << " DMG\n";
+    std::cout << "You grip the new weapon. A cold shiver runs down your spine as you test its weight.\n";
 }
 
 void Character::equipArmor(int amount)
 {
     this->defense = this->defense + amount;
 
-    std::cout << this->name << "'s idea to equip armor boosted his defense by small amount. +" << amount << " DEF\n";
+    std::cout << "You strap the armor over your wounds. It feels suffocating, but it might just save your life.\n";
 }

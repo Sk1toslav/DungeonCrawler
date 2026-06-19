@@ -92,8 +92,7 @@ bool encounter(Hero &player, Enemy &enemy)
         std::cout << "\n====================================\n";
         std::cout << GREEN << player.getName() << "'s health: " << player.getHitpoints() << RESET << " | " << RED << "Enemy's health: " << enemy.getHitpoints() << RESET << "\n";
         std::cout << "====================================\n\n";
-        std::cout << "Attack (A) | Ultimate (U) (Ultimate's left: " << YELLOW << player.getUltiCount() << RESET << ") | Run away (R)\n";
-
+        std::cout << "Attack (A) | Blood Magic (B) (Vials left: " << RED << player.getUltiCount() << RESET << ") | Flee to shadows (R)\n";
         char input;
         std::cin >> input;
         input = toupper(input);
@@ -114,27 +113,37 @@ bool encounter(Hero &player, Enemy &enemy)
             player.takeDamage(enemy.getDamage());
             break;
 
-        case 'U':
+        case 'B':
         {
             int UltDMG = player.getUltiDMG();
+
             if (UltDMG > 0)
             {
-                std::cout << GREEN << player.getName() << RESET << " unleashes his ultimate power dealing " << YELLOW << UltDMG << RESET << " damage!\n";
+                std::cout << RED << "You slice open your own palm. Boiling blood erupts and strikes the enemy for " << UltDMG << " damage!\n"
+                          << RESET;
                 enemy.takeDamage(UltDMG);
+            }
+
+            if (player.getHitpoints() <= 0)
+            {
+                std::cout << RED << "The blood loss was too great. You collapse into your own crimson pool...\n"
+                          << RESET;
+                return false;
             }
             else
             {
-                std::cout << YELLOW << "Hero's ultimate power vanishes, he feels no power surging through him anymore.\n"
+                std::cout << YELLOW << "Your veins feel dry. The dark magic demands a sacrifice you cannot make.\n"
                           << RESET;
             }
 
             if (enemy.getHitpoints() == 0)
             {
-                std::cout << RED << enemy.getName() << YELLOW << " has been slain!\n"
+                std::cout << RED << "The abomination collapses, torn apart by your dark arts!\n"
                           << RESET;
                 return true;
             }
-            std::cout << RED << enemy.getName() << RESET << " strikes back for " << YELLOW << enemy.getDamage() - player.getDefense() << RESET << " damage!\n";
+            std::cout << RED << "The creature shrieks and strikes back for " << enemy.getDamage() - player.getDefense() << " damage!\n"
+                      << RESET;
             player.takeDamage(enemy.getDamage());
             break;
         }
@@ -250,7 +259,7 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
             }
             if (currentMap[targetY][targetX] == 'C')
             {
-                std::cout << YELLOW << "You were lucky enough to find an treasure chest!\n"
+                std::cout << YELLOW << "You force open a rotting, ancient chest...\n"
                           << RESET;
 
                 int roll = rand() % 3;
@@ -260,27 +269,27 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
 
                 if (roll == 0)
                 {
-                    itemName = "Health Potion";
+                    itemName = "Vial of Crimson Blood";
                     itemStat = 25 + (player.getFloor() * 5);
                     player.addItem(std::make_unique<Potion>(itemName, itemStat));
 
-                    std::cout << "In the chest you found '" << itemName << "' that restores +" << itemStat << " HP.\n";
+                    std::cout << "Inside lies a '" << itemName << "'. It smells faintly of iron.\n";
                 }
                 if (roll == 1)
                 {
-                    itemName = "Steel Sword";
+                    itemName = "Rusted Iron Blade";
                     itemStat = 3 + (player.getFloor() * 2);
                     player.addItem(std::make_unique<Weapon>(itemName, itemStat));
 
-                    std::cout << "In the chest you found '" << itemName << "' that provides +" << itemStat << " DMG.\n";
+                    std::cout << "You pull out a '" << itemName << "'. It looks heavy and cruel.\n";
                 }
                 if (roll == 2)
                 {
-                    itemName = "Hide Armor";
+                    itemName = "Tattered Leather Rags";
                     itemStat = 1 + (player.getFloor() * 1);
                     player.addItem(std::make_unique<Accessories>(itemName, itemStat));
 
-                    std::cout << "In the chest you found '" << itemName << "' that gives +" << itemStat << " DEF.\n";
+                    std::cout << "You find '" << itemName << "'. It's still stained from its previous owner.\n";
                 }
 
                 currentMap[targetY][targetX] = '.';
@@ -289,7 +298,7 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
             }
             else if (currentMap[targetY][targetX] == 'E')
             {
-                std::cout << RED << "You encountered an enemy! Get ready for a bloody fight.\n"
+                std::cout << RED << "A grotesque shape emerges from the shadows. There is no turning back now.\n"
                           << RESET;
                 waitForEnter();
 
@@ -313,7 +322,7 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
                 }
                 else if (player.getHitpoints() <= 0)
                 {
-                    std::cout << RED << "You died... GAME OVER.\n"
+                    std::cout << RED << "Your vision fades to black. Another soul claimed by the depths...\n"
                               << RESET;
                     waitForEnter();
                     inDungeon = false;
@@ -325,7 +334,7 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
             }
             else if (currentMap[targetY][targetX] == 'D')
             {
-                std::cout << YELLOW << "You open the creaky door and enter a new room...\n"
+                std::cout << YELLOW << "You push through the heavy doors, descending deeper into the suffocating darkness...\n"
                           << RESET;
 
                 waitForEnter();

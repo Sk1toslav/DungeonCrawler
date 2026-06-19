@@ -56,6 +56,10 @@ int Hero::getUltiDMG()
     if (this->UltimateCount > 0)
     {
         this->UltimateCount -= 1;
+
+        int hpCost = 15 + (this->level * 5);
+        this->hitpoints -= hpCost;
+
         return this->UltimateAbility;
     }
     return 0;
