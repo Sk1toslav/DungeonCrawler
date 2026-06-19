@@ -57,7 +57,7 @@ void Weapon::info()
 
 void Weapon::use(Character &target)
 {
-    target.increaseDMG(weaponDMG);
+    target.equipWeapon(weaponDMG);
 };
 
 // Accessory
@@ -79,5 +79,5 @@ void Accessories::info()
 
 void Accessories::use(Character &target)
 {
-    target.increaseDEF(AccDefense);
+    target.equipArmor(AccDefense);
 };

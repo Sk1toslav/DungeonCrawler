@@ -18,9 +18,9 @@ std::string Character::getName() { return this->name; }
 
 int Character::getHitpoints() { return this->hitpoints; }
 
-int Character::getDamage() { return this->damage; }
+int Character::getDamage() { return this->damage + this->weaponBonus; }
 
-int Character::getDefense() { return this->defense; }
+int Character::getDefense() { return this->defense + this->armorBonus; }
 
 void Character::takeDamage(int dmg)
 {
@@ -44,16 +44,16 @@ void Character::heal(int amount)
     std::cout << this->name << " drank a strange liquid and recovered some HP. (" << this->hitpoints << "/" << this->maxHitpoints << ")\n";
 }
 
-void Character::increaseDMG(int amount)
+void Character::equipWeapon(int amount)
 {
-    this->damage += amount;
+    this->damage = this->damage + amount;
 
     std::cout << this->name << "'s smart move to use this weapon increased his damage slightly. +" << amount << " DMG\n";
 }
 
-void Character::increaseDEF(int amount)
+void Character::equipArmor(int amount)
 {
-    this->defense += amount;
+    this->defense = this->defense + amount;
 
     std::cout << this->name << "'s idea to equip armor boosted his defense by small amount. +" << amount << " DEF\n";
 }
