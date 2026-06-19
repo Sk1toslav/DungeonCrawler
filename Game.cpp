@@ -274,7 +274,7 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
 
                     std::cout << "In the chest you found '" << itemName << "' that provides +" << itemStat << " DMG.\n";
                 }
-                if (roll == 3)
+                if (roll == 2)
                 {
                     itemName = "Hide Armor";
                     itemStat = 1 + (player.getFloor() * 1);
