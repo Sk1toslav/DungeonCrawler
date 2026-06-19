@@ -121,7 +121,7 @@ bool encounter(Hero &player, Enemy &enemy)
             {
                 std::cout << RED << "You slice open your own palm. Boiling blood erupts and strikes the enemy for " << UltDMG << " damage!\n"
                           << RESET;
-                enemy.takeDamage(UltDMG);
+                enemy.takeTrueDamage(UltDMG);
             }
 
             if (player.getHitpoints() <= 0)

@@ -33,6 +33,15 @@ void Character::takeDamage(int dmg)
         this->hitpoints = 0;
 }
 
+void Character::takeTrueDamage(int dmg)
+{
+
+    this->hitpoints -= dmg;
+
+    if (this->hitpoints < 0)
+        this->hitpoints = 0;
+}
+
 void Character::heal(int amount)
 {
     this->hitpoints += amount;

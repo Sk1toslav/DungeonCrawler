@@ -27,6 +27,7 @@ public:
     int getDefense();
 
     void takeDamage(int dmg);
+    void takeTrueDamage(int dmg);
 
     void heal(int amount);
 
