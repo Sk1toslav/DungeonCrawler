@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include <fstream>
-
 #include "Hero.h"
 #include "Game.h"
 
@@ -35,7 +34,6 @@ void saveGame(Hero &player, std::vector<std::string> &currentMap)
         {
             Item *item = player.getItem(i);
 
-                // dynamic_cast kontroluje jestli je item Potion atd..
             if (Potion *p = dynamic_cast<Potion *>(item))
             {
                 file << "Potion\n"
@@ -57,11 +55,11 @@ void saveGame(Hero &player, std::vector<std::string> &currentMap)
         }
 
         file.close();
-        std::cout << GREEN << "Game successfully saved." << RESET << "\n";
+        std::cout << MARGIN << GREEN << "Game successfully saved." << RESET << "\n";
     }
     else
     {
-        std::cout << RED << "ERROR: Nepodarilo se vytvorit soubor savegame.txt" << RESET << "\n";
+        std::cout << MARGIN << RED << "ERROR: Nepodarilo se vytvorit soubor savegame.txt" << RESET << "\n";
     }
 }
 
@@ -114,8 +112,7 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
 
             file >> type;
             file >> stat;
-
-            std::getline(file >> std::ws, name);  //std::ws ignoruje mezery
+            std::getline(file >> std::ws, name);
 
             if (type == "Potion")
             {
@@ -131,14 +128,16 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
             }
         }
 
-        std::cout << GREEN << "Game successfully loaded! Welcome back, " << loadedName << "." << RESET << "\n";
+        std::cout << "\n"
+                  << MARGIN << GREEN << "Game successfully loaded! Welcome back, " << loadedName << "." << RESET << "\n";
         file.close();
 
         return loadedHero;
     }
     else
     {
-        std::cout << RED << "ERROR: No save file found." << RESET << "\n";
+        std::cout << "\n"
+                  << MARGIN << RED << "ERROR: No save file found." << RESET << "\n";
         return nullptr;
     }
 }
