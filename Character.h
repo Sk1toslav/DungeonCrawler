@@ -21,10 +21,10 @@ public:
 
     virtual ~Character();
 
-    std::string getName();
-    int getHitpoints();
-    int getDamage();
-    int getDefense();
+    std::string getName() const;
+    int getHitpoints() const;
+    int getDamage() const;
+    int getDefense() const;
 
     void takeDamage(int dmg);
     void takeTrueDamage(int dmg);

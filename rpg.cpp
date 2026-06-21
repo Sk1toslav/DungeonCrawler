@@ -18,16 +18,15 @@ int main()
 {
     srand(time(NULL));
 
-    std::cout << "\n\n"
-              << MARGIN << "**********************************\n";
-    std::cout << MARGIN << "  Welcome to Dungeon Crawler #1\n";
-    std::cout << MARGIN << "**********************************\n\n";
+    std::cout << "\n\n**********************************\n";
+    std::cout << "  Welcome to Dungeon Crawler \n";
+    std::cout << "**********************************\n\n";
 
     std::vector<std::vector<std::string>> loadedMaps = loadMaps("maps.txt");
 
     if (loadedMaps.empty())
     {
-        std::cout << MARGIN << RED << "ERROR: Mapa nenactena, zkontroluj maps.txt\n"
+        std::cout << RED << "ERROR: Mapa nenactena, zkontroluj maps.txt\n"
                   << RESET;
         return 1;
     }
@@ -38,30 +37,27 @@ int main()
     while (run)
     {
         char volba;
-        std::cout << "\n"
-                  << MARGIN << "Start new run (N) | Load save (L) | Exit game (E)\n";
-        std::cout << MARGIN << "Action: ";
+        std::cout << "\nStart new run (N) | Load save (L) | Exit game (E)\n";
+        std::cout << "Action: ";
         std::cin >> volba;
 
         switch (toupper(volba))
         {
         case 'N':
         {
-            std::cout << "\n"
-                      << MARGIN << "**********************************\n";
-            std::cout << MARGIN << "What is your name Crawler?\n";
-            std::cout << MARGIN << "**********************************\n";
-            std::cout << MARGIN << "Name: ";
+            std::cout << "\n**********************************\n";
+            std::cout << "What is your name Crawler?\n";
+            std::cout << "**********************************\n";
+            std::cout << "Name: ";
 
             std::string heroName;
             std::cin >> heroName;
 
             activeHero = std::make_unique<Hero>(heroName, 100, 15, 5, 30);
 
-            std::cout << "\n"
-                      << MARGIN << "**********************************\n";
-            std::cout << MARGIN << "Hero " << heroName << " embarks fearlessly into the dungeon!\n";
-            std::cout << MARGIN << "**********************************\n";
+            std::cout << "\n**********************************\n";
+            std::cout << "Hero " << heroName << " embarks fearlessly into the dungeon!\n";
+            std::cout << "**********************************\n";
 
             activeHero->setPosition(1, 1);
 
@@ -83,14 +79,13 @@ int main()
             break;
         }
         case 'E':
-            std::cout << "\n"
-                      << MARGIN << "Exiting game..\n";
+            std::cout << "\nExiting game..\n";
             run = false;
             break;
 
         default:
             std::cout << "\n"
-                      << MARGIN << RED << "ERROR: Wrong input. Try again.\n\n"
+                      << RED << "ERROR: Wrong input. Try again.\n\n"
                       << RESET;
             break;
         }

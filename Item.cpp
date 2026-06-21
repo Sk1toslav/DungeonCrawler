@@ -11,7 +11,7 @@ Item::~Item()
     std::cout << "LOG: Maze se predmet " << this->name << std::endl;
 }
 
-std::string Item::getName()
+std::string Item::getName() const
 {
     return this->name;
 }
@@ -23,7 +23,7 @@ Potion::Potion(std::string name, int healAmount) : Item(name)
     this->healAmount = healAmount;
 }
 
-int Potion::getHealAmount()
+int Potion::getHealAmount() const
 {
     return this->healAmount;
 }
@@ -45,7 +45,7 @@ Weapon::Weapon(std::string name, int weaponDMG) : Item(name)
     this->weaponDMG = weaponDMG;
 }
 
-int Weapon::getWeaponDMG()
+int Weapon::getWeaponDMG() const
 {
     return this->weaponDMG;
 }
@@ -67,7 +67,7 @@ Accessories::Accessories(std::string name, int AccDefense) : Item(name)
     this->AccDefense = AccDefense;
 }
 
-int Accessories::getAccessoryDEF()
+int Accessories::getAccessoryDEF() const
 {
     return this->AccDefense;
 }

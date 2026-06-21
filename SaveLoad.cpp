@@ -55,11 +55,11 @@ void saveGame(Hero &player, std::vector<std::string> &currentMap)
         }
 
         file.close();
-        std::cout << MARGIN << GREEN << "Game successfully saved." << RESET << "\n";
+        std::cout << GREEN << "Game successfully saved." << RESET << "\n";
     }
     else
     {
-        std::cout << MARGIN << RED << "ERROR: Nepodarilo se vytvorit soubor savegame.txt" << RESET << "\n";
+        std::cout << RED << "ERROR: Nepodarilo se vytvorit soubor savegame.txt" << RESET << "\n";
     }
 }
 
@@ -129,7 +129,7 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
         }
 
         std::cout << "\n"
-                  << MARGIN << GREEN << "Game successfully loaded! Welcome back, " << loadedName << "." << RESET << "\n";
+                  << GREEN << "Game successfully loaded! Welcome back, " << loadedName << "." << RESET << "\n";
         file.close();
 
         return loadedHero;
@@ -137,7 +137,7 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
     else
     {
         std::cout << "\n"
-                  << MARGIN << RED << "ERROR: No save file found." << RESET << "\n";
+                  << RED << "ERROR: No save file found." << RESET << "\n";
         return nullptr;
     }
 }

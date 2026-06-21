@@ -30,27 +30,27 @@ public:
 
     int getUltiDMG();
 
-    int getUltiCount();
+    int getUltiCount() const;
 
     void gainExp(int amount);
 
     void setPosition(int startX, int startY);
 
-    int getX();
-    int getY();
+    int getX() const;
+    int getY() const;
 
-    int getFloor();
+    int getFloor() const;
 
     int setFloor(int floor);
 
-    int getXP();
-    int getLVL();
+    int getXP() const;
+    int getLVL() const;
 
     void setLevel(int lvl);
     void setXP(int xp);
 
-    int getInventorySize();
-    Item* getItem(int index);
+    int getInventorySize() const;
+    Item* getItem(int index) const;
     void addItem(std::unique_ptr<Item> item);
 
 private:

@@ -15,7 +15,7 @@ public:
 
     virtual ~Item();
 
-    std::string getName();
+    std::string getName() const;
 
     virtual void info() = 0;
 
@@ -30,7 +30,7 @@ private:
 public:
     Potion(std::string name, int healAmount);
 
-    int getHealAmount();
+    int getHealAmount() const;
 
     void info() override;
 
@@ -45,7 +45,7 @@ private:
 public:
     Weapon(std::string name, int weaponDMG);
 
-    int getWeaponDMG();
+    int getWeaponDMG() const;
 
     void info() override;
 
@@ -59,7 +59,7 @@ private:
 public:
     Accessories(std::string name, int AccDefense);
 
-    int getAccessoryDEF();
+    int getAccessoryDEF() const;
 
     void info() override;
 
