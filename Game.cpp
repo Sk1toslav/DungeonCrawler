@@ -321,7 +321,7 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
 
                 std::unique_ptr<Enemy> foughtEnemy = nullptr;
 
-                if (player.getFloor() == 2)
+                if (player.getFloor() == 100)
                 {
                     clearScreen();
                     std::cout << "\n";
