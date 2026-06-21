@@ -144,3 +144,48 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
         return nullptr;
     }
 }
+
+void recordDeath(Hero &player)
+{
+    std::ofstream file("graveyard.txt", std::ios::app);
+
+    if (file.is_open())
+    {
+        file << player.getName() << "  |  Reached Floor: " << player.getFloor() << "  |  Died at Level: " << player.getLVL() << "\n";
+        file.close();
+    }
+}
+
+void showGraveyard()
+{
+    std::ifstream file("graveyard.txt");
+
+    std::cout << "\n==================================================\n";
+    std::cout << RED << "            GRAVEYARD OF FALLEN HEROES            " << RESET << "\n";
+    std::cout << "==================================================\n\n";
+
+    if (file.is_open())
+    {
+        std::string line;
+        bool isEmpty = true;
+
+        while (std::getline(file, line))
+        {
+            std::cout << "  * " << line << "\n";
+            isEmpty = false;
+        }
+
+        file.close();
+
+        if (isEmpty)
+        {
+            std::cout << "  The soil is undisturbed. No heroes have fallen yet.\n";
+        }
+    }
+    else
+    {
+        std::cout << "  The soil is undisturbed. No heroes have fallen yet.\n";
+    }
+
+    std::cout << "\n==================================================\n";
+}

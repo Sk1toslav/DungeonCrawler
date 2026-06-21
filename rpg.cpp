@@ -37,7 +37,7 @@ int main()
     while (run)
     {
         std::string volbaInput;
-        std::cout << "\nStart new run (N) | Load save (L) | Exit game (E)\n";
+        std::cout << "\nStart new run (N) | Load save (L) | Graveyard (G) | Exit game (E)\n";
         std::cout << "Action: ";
         std::cin >> volbaInput;
 
@@ -87,6 +87,10 @@ int main()
             }
             break;
         }
+        case 'G':
+            showGraveyard();
+            waitForEnter();
+            break;
         case 'E':
             std::cout << "\nExiting game..\n";
             run = false;

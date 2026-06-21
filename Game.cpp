@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <cctype>
+#include <memory>
 
 std::vector<std::vector<std::string>> loadMaps(std::string filename)
 {
@@ -91,7 +92,7 @@ bool encounter(Hero &player, Enemy &enemy)
     while (player.getHitpoints() > 0 && enemy.getHitpoints() > 0)
     {
         std::cout << "\n--------------------------------------------------\n";
-        std::cout << "    " << GREEN << player << RESET << "   VS   " << RED << enemy << RESET << "\n";
+        std::cout << GREEN << player << RESET << "   VS   " << RED << enemy << RESET << "\n";
         std::cout << "--------------------------------------------------\n\n";
 
         std::cout << "[A] Attack   |   [B] Blood Magic (" << RED << player.getUltiCount() << RESET << ")   |   [R] Flee\n";
@@ -317,35 +318,66 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
             }
             else if (currentMap[targetY][targetX] == 'E')
             {
-                std::cout << "\n"
-                          << RED << "A grotesque shape emerges from the shadows. There is no turning back now.\n"
-                          << RESET;
-                waitForEnter();
 
-                int enemyHP = 25 + (player.getFloor() * 5);
-                int enemyDMG = 6 + (player.getFloor() * 2);
-                int enemyDEF = 1 + (player.getFloor() * 1);
-                int enemyXP = 40 + (player.getFloor() * 10);
+                std::unique_ptr<Enemy> foughtEnemy = nullptr;
 
-                Enemy enemy("Monster (F" + std::to_string(player.getFloor()) + ")", enemyHP, enemyDMG, enemyDEF, enemyXP);
+                if (player.getFloor() == 2)
+                {
+                    clearScreen();
+                    std::cout << "\n";
+                    std::cout << RED << "The air turns to scorching ash. A colossal pair of reptilian eyes opens in the dark...\n"
+                              << RESET;
+                    waitForEnter();
 
-                bool won = encounter(player, enemy);
+                    foughtEnemy = std::make_unique<Enemy>("Carnage, THE RED DRAGON", 750, 60, 25, 5000);
+                }
+                else
+                {
+                    clearScreen();
+                    std::cout << "\n"
+                              << RED << "A grotesque shape emerges from the shadows. There is no turning back now.\n"
+                              << RESET;
+                    waitForEnter();
+
+                    int enemyHP = 25 + (player.getFloor() * 5);
+                    int enemyDMG = 6 + (player.getFloor() * 2);
+                    int enemyDEF = 1 + (player.getFloor() * 1);
+                    int enemyXP = 40 + (player.getFloor() * 10);
+
+                    foughtEnemy = std::make_unique<Enemy>("Monster (F" + std::to_string(player.getFloor()) + ")", enemyHP, enemyDMG, enemyDEF, enemyXP);
+                }
+
+                bool won = encounter(player, *foughtEnemy);
 
                 if (won)
                 {
                     std::cout << "\n"
                               << GREEN << "You won the battle!\n"
                               << RESET;
-                    player.gainExp(enemy.getXpReward());
+                    player.gainExp(foughtEnemy->getXpReward());
                     currentMap[targetY][targetX] = '.';
                     player.setPosition(targetX, targetY);
                     waitForEnter();
+
+                    if (player.getFloor() == 100)
+                    {
+                        clearScreen();
+                        std::cout << "\n"
+                                  << GREEN << "==================================================\n";
+                        std::cout << "THE RED DRAGON COLLAPSES. THE DUNGEON FALLS SILENT.\n";
+                        std::cout << "YOU HAVE CONQUERED THE DEPTHS AND WON THE GAME!\n";
+                        std::cout << "==================================================\n"
+                                  << RESET;
+                        waitForEnter();
+                        inDungeon = false;
+                    }
                 }
                 else if (player.getHitpoints() <= 0)
                 {
                     std::cout << "\n"
                               << RED << "Your vision fades to black. Another soul claimed by the depths...\n"
                               << RESET;
+                    recordDeath(player);
                     waitForEnter();
                     inDungeon = false;
                 }
