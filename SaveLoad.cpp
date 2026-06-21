@@ -16,6 +16,7 @@ void saveGame(Hero &player, std::vector<std::string> &currentMap)
         file << player.getHitpoints() << "\n";
         file << player.getDamage() << "\n";
         file << player.getDefense() << "\n";
+        file << player.getMaxHitpoints() << "\n";
         file << player.getFloor() << "\n";
         file << player.getLVL() << "\n";
         file << player.getXP() << "\n";
@@ -70,12 +71,13 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
     if (file.is_open())
     {
         std::string loadedName;
-        int loadedHP, loadedDMG, loadedDEF, loadedFloor, loadedlvl, loadedxp, loadedX, loadedY;
+        int loadedHP, loadedmaxHP, loadedDMG, loadedDEF, loadedFloor, loadedlvl, loadedxp, loadedX, loadedY;
 
         file >> loadedName;
         file >> loadedHP;
         file >> loadedDMG;
         file >> loadedDEF;
+        file >> loadedmaxHP;
         file >> loadedFloor;
         file >> loadedlvl;
         file >> loadedxp;
@@ -84,6 +86,7 @@ std::unique_ptr<Hero> loadGame(std::vector<std::string> &loadedMap)
 
         auto loadedHero = std::make_unique<Hero>(loadedName, loadedHP, loadedDMG, loadedDEF, 30);
 
+        loadedHero->setMaxHP(loadedmaxHP);
         loadedHero->setLevel(loadedlvl);
         loadedHero->setXP(loadedxp);
         loadedHero->setFloor(loadedFloor);

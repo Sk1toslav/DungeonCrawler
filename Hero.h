@@ -48,9 +48,10 @@ public:
 
     void setLevel(int lvl);
     void setXP(int xp);
+    void setMaxHP(int maxHP);
 
     int getInventorySize() const;
-    Item* getItem(int index) const;
+    Item *getItem(int index) const;
     void addItem(std::unique_ptr<Item> item);
 
 private:

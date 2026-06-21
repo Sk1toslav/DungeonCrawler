@@ -23,6 +23,7 @@ public:
 
     std::string getName() const;
     int getHitpoints() const;
+    int getMaxHitpoints() const;
     int getDamage() const;
     int getDefense() const;
 
@@ -31,6 +32,8 @@ public:
 
     void heal(int amount);
 
-    void equipWeapon(int amount); 
+    void equipWeapon(int amount);
     void equipArmor(int amount);
+
+    friend std::ostream &operator<<(std::ostream &os, const Character &c);
 };

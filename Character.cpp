@@ -19,6 +19,7 @@ Character::~Character()
 
 std::string Character::getName() const { return this->name; }
 int Character::getHitpoints() const { return this->hitpoints; }
+int Character::getMaxHitpoints() const { return this->maxHitpoints; }
 int Character::getDamage() const { return this->damage + this->weaponBonus; }
 int Character::getDefense() const { return this->defense + this->armorBonus; }
 
@@ -60,4 +61,10 @@ void Character::equipArmor(int amount)
 {
     this->armorBonus = amount;
     std::cout << "You strap the armor over your wounds. It feels suffocating, but it might just save your life.\n";
+}
+
+std::ostream &operator<<(std::ostream &os, const Character &c)
+{
+    os << c.name << " (HP: " << c.hitpoints << "/" << c.maxHitpoints << ")";
+    return os;
 }

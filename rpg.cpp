@@ -36,11 +36,20 @@ int main()
     bool run = true;
     while (run)
     {
-        char volba;
+        std::string volbaInput;
         std::cout << "\nStart new run (N) | Load save (L) | Exit game (E)\n";
         std::cout << "Action: ";
-        std::cin >> volba;
+        std::cin >> volbaInput;
 
+        if (volbaInput.length() > 1)
+        {
+            std::cout << "\n"
+                      << RED << "ERROR: Input only one character!\n"
+                      << RESET;
+            continue;
+        }
+
+        char volba = volbaInput[0];
         switch (toupper(volba))
         {
         case 'N':

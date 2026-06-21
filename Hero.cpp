@@ -109,6 +109,7 @@ int Hero::getXP() const { return this->experience; }
 int Hero::getLVL() const { return this->level; }
 void Hero::setLevel(int lvl) { this->level = lvl; }
 void Hero::setXP(int xp) { this->experience = xp; }
+void Hero::setMaxHP(int maxHP) { this->maxHitpoints = maxHP; }
 int Hero::getInventorySize() const { return this->inventory.size(); }
 Item *Hero::getItem(int index) const { return this->inventory[index].get(); }
 void Hero::addItem(std::unique_ptr<Item> item) { inventory.push_back(std::move(item)); }
