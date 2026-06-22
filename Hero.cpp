@@ -11,7 +11,7 @@ Hero::Hero(std::string name, int hitpoints, int damage, int defense, int Ultimat
     this->currentFloor = 1;
 }
 
-void Hero::showInventory()
+void Hero::showInventory() const
 {
     if (inventory.empty())
     {
@@ -40,7 +40,7 @@ void Hero::useItemFromInventory(int index)
     else
     {
         std::cout << "\n"
-                  << RED << "ERROR: Hero grabbed into an empty space in your backpack.\n"
+                  << RED << "ERROR: Hero grabbed into an empty space in his backpack.\n"
                   << RESET;
     }
 }

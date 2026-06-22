@@ -60,7 +60,7 @@ void saveGame(Hero &player, std::vector<std::string> &currentMap)
     }
     else
     {
-        std::cout << RED << "ERROR: Nepodarilo se vytvorit soubor savegame.txt" << RESET << "\n";
+        std::cout << RED << "ERROR: Couldn't create savegame.txt" << RESET << "\n";
     }
 }
 

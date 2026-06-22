@@ -26,7 +26,7 @@ int main()
 
     if (loadedMaps.empty())
     {
-        std::cout << RED << "ERROR: Mapa nenactena, zkontroluj maps.txt\n"
+        std::cout << RED << "ERROR: Map not loaded, check maps.txt\n"
                   << RESET;
         return 1;
     }
@@ -36,20 +36,8 @@ int main()
     bool run = true;
     while (run)
     {
-        std::string volbaInput;
-        std::cout << "\nStart new run (N) | Load save (L) | Graveyard (G) | Exit game (E)\n";
-        std::cout << "Action: ";
-        std::cin >> volbaInput;
+        char volba = getSafeInput<char>("\nStart new run (N) | Load save (L) | Graveyard (G) | Exit game (E)\nAction: ");
 
-        if (volbaInput.length() > 1)
-        {
-            std::cout << "\n"
-                      << RED << "ERROR: Input only one character!\n"
-                      << RESET;
-            continue;
-        }
-
-        char volba = volbaInput[0];
         switch (toupper(volba))
         {
         case 'N':
@@ -57,10 +45,8 @@ int main()
             std::cout << "\n**********************************\n";
             std::cout << "What is your name Crawler?\n";
             std::cout << "**********************************\n";
-            std::cout << "Name: ";
 
-            std::string heroName;
-            std::cin >> heroName;
+            std::string heroName = getSafeInput<std::string>("Name: ");
 
             activeHero = std::make_unique<Hero>(heroName, 100, 15, 5, 30);
 

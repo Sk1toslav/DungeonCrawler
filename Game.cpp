@@ -38,7 +38,7 @@ std::vector<std::vector<std::string>> loadMaps(std::string filename)
     }
     else
     {
-        std::cout << RED << "ERROR: Nepodarilo se otevrit soubor " << filename << RESET << "\n";
+        std::cout << RED << "ERROR: Couldn't open file " << filename << RESET << "\n";
     }
 
     return allMaps;
@@ -84,7 +84,7 @@ void mapvisual(Hero &player, std::vector<std::string> &map)
 bool encounter(Hero &player, Enemy &enemy)
 {
     clearScreen();
-    std::cout << "\n\n"
+    std::cout << "\n"
               << RED << "============================================" << RESET << "\n";
     std::cout << RED << "! A MONSTER EMERGES FROM THE SHADOWS !      " << RESET << "\n";
     std::cout << RED << "============================================" << RESET << "\n\n";
@@ -98,13 +98,9 @@ bool encounter(Hero &player, Enemy &enemy)
         std::cout << "[A] Attack   |   [B] Blood Magic (" << RED << player.getUltiCount() << RESET << ")   |   [R] Flee\n";
         std::cout << "Action: ";
 
-        char input;
-        std::cin >> input;
-        input = toupper(input);
+        char volba = getSafeInput<char>("Action: ");
 
-        std::cout << "\n";
-
-        switch (input)
+        switch (toupper(volba))
         {
         case 'A':
             std::cout << GREEN << player.getName() << RESET << " attacks for " << YELLOW << player.getDamage() << RESET << " damage!\n";
@@ -175,8 +171,8 @@ bool encounter(Hero &player, Enemy &enemy)
 void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::vector<std::string> savedMap)
 {
     bool inDungeon = true;
-    char moveChoice;
 
+    bool bossDefeated = false;
     while (inDungeon)
     {
         std::vector<std::string> currentMap;
@@ -206,10 +202,8 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
             std::cout << "\n--------------------------------------------------\n";
             std::cout << "[W/A/S/D] Move  |  [I] Inventory  |  [V] Save  |  [Q] Quit\n";
             std::cout << "--------------------------------------------------\n";
-            std::cout << "Action: ";
 
-            std::cin >> moveChoice;
-
+            char moveChoice = getSafeInput<char>("Action: ");
             moveChoice = toupper(moveChoice);
 
             int targetX = player.getX();
@@ -228,22 +222,10 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
                 clearScreen();
                 std::cout << "\n\n";
                 player.showInventory();
-                std::cout << "\nWhich item do you intend to use? (0 to Cancel) \n";
-                std::cout << "Action: ";
 
-                int itemChoice;
-                std::cin >> itemChoice;
+                int itemChoice = getSafeInput<int>("Which item do you intend to use? (0 to Cancel)\nAction: ");
 
-                if (std::cin.fail())
-                {
-                    std::cin.clear();
-                    std::cin.ignore(10000, '\n');
-                    std::cout << "\n"
-                              << RED << "ERROR: Invalid number\n"
-                              << RESET;
-                    waitForEnter();
-                }
-                else if (itemChoice > 0)
+                if (itemChoice > 0)
                 {
                     player.useItemFromInventory(itemChoice);
                     waitForEnter();
@@ -321,13 +303,12 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
 
                 std::unique_ptr<Enemy> foughtEnemy = nullptr;
 
-                if (player.getFloor() == 100)
+                if (player.getFloor() == 100 && !bossDefeated)
                 {
                     clearScreen();
                     std::cout << "\n";
                     std::cout << RED << "The air turns to scorching ash. A colossal pair of reptilian eyes opens in the dark...\n"
                               << RESET;
-                    waitForEnter();
 
                     foughtEnemy = std::make_unique<Enemy>("Carnage, THE RED DRAGON", 750, 60, 25, 5000);
                 }
@@ -337,7 +318,6 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
                     std::cout << "\n"
                               << RED << "A grotesque shape emerges from the shadows. There is no turning back now.\n"
                               << RESET;
-                    waitForEnter();
 
                     int enemyHP = 25 + (player.getFloor() * 5);
                     int enemyDMG = 6 + (player.getFloor() * 2);
@@ -346,6 +326,8 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
 
                     foughtEnemy = std::make_unique<Enemy>("Monster (F" + std::to_string(player.getFloor()) + ")", enemyHP, enemyDMG, enemyDEF, enemyXP);
                 }
+
+                waitForEnter();
 
                 bool won = encounter(player, *foughtEnemy);
 
@@ -361,7 +343,10 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
 
                     if (player.getFloor() == 100)
                     {
+                        bossDefeated = true;
+
                         clearScreen();
+
                         std::cout << "\n"
                                   << GREEN << "==================================================\n";
                         std::cout << "THE RED DRAGON COLLAPSES. THE DUNGEON FALLS SILENT.\n";

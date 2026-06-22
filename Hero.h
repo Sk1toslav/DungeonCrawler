@@ -24,34 +24,26 @@ private:
 public:
     Hero(std::string name, int hitpoints, int damage, int defense, int UltimateAbility);
 
-    void showInventory();
-
+    void showInventory() const;
     void useItemFromInventory(int index);
-
     int getUltiDMG();
 
     int getUltiCount() const;
-
     void gainExp(int amount);
-
     void setPosition(int startX, int startY);
 
     int getX() const;
     int getY() const;
-
     int getFloor() const;
-
-    int setFloor(int floor);
-
     int getXP() const;
     int getLVL() const;
+    int getInventorySize() const;
+    Item *getItem(int index) const;
 
+    int setFloor(int floor);
     void setLevel(int lvl);
     void setXP(int xp);
     void setMaxHP(int maxHP);
-
-    int getInventorySize() const;
-    Item *getItem(int index) const;
     void addItem(std::unique_ptr<Item> item);
 
 private:
