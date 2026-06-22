@@ -1,7 +1,7 @@
 Markdown
 # ⚔️ Dungeon Crawler: Carnage
 
-**Dungeon Crawler je temná, plně objektová RPG hra v konzoli napsaná v moderním C++. Hráč se ujímá role hrdiny, který sestupuje do nebezpečného podzemního labyrintu o 100 patrech s jediným cílem – porazit finálního bosse jménem *Carnage, THE RED DRAGON*.
+Dungeon Crawler je temná, plně objektová RPG hra v konzoli napsaná v moderním C++. Hráč se ujímá role hrdiny, který sestupuje do nebezpečného podzemního labyrintu o 100 patrech s jediným cílem – porazit finálního bosse jménem *Carnage, THE RED DRAGON*.
 
 Hra klade důraz na atmosféru, nekompromisní souboje (permadeath), správu inventáře a průzkum neznámého prostředí.
 
