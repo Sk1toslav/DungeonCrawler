@@ -1,0 +1,15 @@
+name: C++ CI Build
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Compile Dungeon Crawler
+      run: g++ -std=c++14 -Wall rpg.cpp Game.cpp Hero.cpp Enemy.cpp Character.cpp Item.cpp SaveLoad.cpp -o rpg_test
