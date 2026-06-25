@@ -56,6 +56,7 @@ class Accessories : public Item
 {
 private:
     int AccDefense;
+
 public:
     Accessories(std::string name, int AccDefense);
 
@@ -64,5 +65,4 @@ public:
     void info() override;
 
     void use(Character &target) override;
-
 };

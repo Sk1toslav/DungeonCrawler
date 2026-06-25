@@ -102,8 +102,10 @@ bool encounter(Hero &player, Enemy &enemy)
         switch (toupper(volba))
         {
         case 'A':
-            std::cout << GREEN << player.getName() << RESET << " attacks for " << YELLOW << player.getDamage() << RESET << " damage!\n";
-            enemy.takeDamage(player.getDamage());
+        {
+            int dealt = enemy.takeDamage(player.getDamage());
+
+            std::cout << GREEN << player.getName() << RESET << " attacks for " << YELLOW << dealt << RESET << " damage!\n";
 
             if (enemy.getHitpoints() == 0)
             {
@@ -112,10 +114,11 @@ bool encounter(Hero &player, Enemy &enemy)
                           << RESET;
                 return true;
             }
-            std::cout << RED << enemy.getName() << RESET << " strikes back for " << YELLOW << enemy.getDamage() - player.getDefense() << RESET << " damage!\n";
-            player.takeDamage(enemy.getDamage());
-            break;
+            int taken = player.takeDamage(enemy.getDamage());
 
+            std::cout << RED << enemy.getName() << RESET << " strikes back for " << YELLOW << taken << RESET << " damage!\n";
+            break;
+        }
         case 'B':
         {
             int UltDMG = player.getUltiDMG();
@@ -147,8 +150,9 @@ bool encounter(Hero &player, Enemy &enemy)
                           << RESET;
                 return true;
             }
-            std::cout << RED << "The creature shrieks and strikes back for " << YELLOW << enemy.getDamage() - player.getDefense() << RESET << " damage!\n";
-            player.takeDamage(enemy.getDamage());
+            int taken = player.takeDamage(enemy.getDamage());
+
+            std::cout << RED << "The creature shrieks and strikes back for " << YELLOW << taken << RESET << " damage!\n";
             break;
         }
 
@@ -157,11 +161,15 @@ bool encounter(Hero &player, Enemy &enemy)
             return false;
 
         default:
+        {
+            int taken = player.takeDamage(enemy.getDamage());
+
             std::cout << YELLOW << "Hero's head got all messed up with the things he can do and wastes his turn.\n"
                       << RESET;
-            std::cout << RED << enemy.getName() << RESET << " strikes confused hero for " << YELLOW << enemy.getDamage() - player.getDefense() << RESET << " damage!\n";
+            std::cout << RED << enemy.getName() << RESET << " strikes confused hero for " << YELLOW << taken << RESET << " damage!\n";
             player.takeDamage(enemy.getDamage());
             break;
+        }
         }
     }
     return false;
@@ -194,7 +202,9 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
 
             std::cout << "\n\nx=x=x=x=x=x=x=x=x=x=x=x=x=x=x\n";
             std::cout << "   DUNGEON (FLOOR " << player.getFloor() << "/100) \n";
-            std::cout << "x=x=x=x=x=x=x=x=x=x=x=x=x=x=x\n\n";
+            std::cout << "x=x=x=x=x=x=x=x=x=x=x=x=x=x=x\n";
+            std::cout << GREEN << " HP: " << player.getHitpoints() << "/" << player.getMaxHitpoints() << RESET;
+            std::cout << "  |  " << YELLOW << "LVL: " << player.getLVL() << " (XP: " << player.getXP() << ")" << RESET << "\n\n";
 
             mapvisual(player, currentMap);
 
@@ -275,21 +285,21 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
 
                 if (roll == 0)
                 {
-                    itemName = floorTag + " Vial of Crimson Blood"; 
+                    itemName = floorTag + " Vial of Crimson Blood";
                     itemStat = 25 + (player.getFloor() * 5);
                     player.addItem(std::make_unique<Potion>(itemName, itemStat));
                     std::cout << "Inside lies a '" << itemName << "'. It smells faintly of iron.\n";
                 }
                 else if (roll == 1)
                 {
-                    itemName = floorTag +" Rusted Iron Blade";
+                    itemName = floorTag + " Rusted Iron Blade";
                     itemStat = 3 + (player.getFloor() * 2);
                     player.addItem(std::make_unique<Weapon>(itemName, itemStat));
                     std::cout << "You pull out a '" << itemName << "'. It looks heavy and cruel.\n";
                 }
                 else if (roll == 2)
                 {
-                    itemName = floorTag +" Tattered Leather Rags";
+                    itemName = floorTag + " Tattered Leather Rags";
                     itemStat = 1 + (player.getFloor() * 1);
                     player.addItem(std::make_unique<Accessories>(itemName, itemStat));
                     std::cout << "You find '" << itemName << "'. It's still stained from its previous owner.\n";

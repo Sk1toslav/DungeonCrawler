@@ -30,7 +30,7 @@ int Potion::getHealAmount() const
 
 void Potion::info()
 {
-    std::cout << this->name << " a strange red potion that gives off a healing aura.\n";
+    std::cout << this->name << " - a strange red potion that gives off a healing aura.\n";
 }
 
 void Potion::use(Character &target)
@@ -52,7 +52,7 @@ int Weapon::getWeaponDMG() const
 
 void Weapon::info()
 {
-    std::cout << this->name << " which can be equipped to boost hero's attack power.\n" ;
+    std::cout << this->name << " - which can be equipped to boost hero's attack power.\n";
 }
 
 void Weapon::use(Character &target)
@@ -74,7 +74,7 @@ int Accessories::getAccessoryDEF() const
 
 void Accessories::info()
 {
-    std::cout << this->name << " provide a helping hand in blocking attacks more easily.\n";
+    std::cout << this->name << " - provide a helping hand in blocking attacks more easily.\n";
 }
 
 void Accessories::use(Character &target)

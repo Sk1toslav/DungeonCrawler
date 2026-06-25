@@ -27,7 +27,7 @@ public:
     int getDamage() const;
     int getDefense() const;
 
-    void takeDamage(int dmg);
+    int takeDamage(int dmg);
     void takeTrueDamage(int dmg);
 
     void heal(int amount);

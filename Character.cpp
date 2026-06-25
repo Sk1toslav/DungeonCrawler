@@ -23,7 +23,7 @@ int Character::getMaxHitpoints() const { return this->maxHitpoints; }
 int Character::getDamage() const { return this->damage + this->weaponBonus; }
 int Character::getDefense() const { return this->defense + this->armorBonus; }
 
-void Character::takeDamage(int dmg)
+int Character::takeDamage(int dmg)
 {
     int actualDamage = dmg - this->defense;
     if (actualDamage < 0)
@@ -32,6 +32,8 @@ void Character::takeDamage(int dmg)
     this->hitpoints -= actualDamage;
     if (this->hitpoints < 0)
         this->hitpoints = 0;
+
+    return actualDamage;
 }
 
 void Character::takeTrueDamage(int dmg)

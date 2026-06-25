@@ -25,7 +25,7 @@ T getSafeInput(const std::string &prompt)
         std::cout << RESET << prompt;
         if (std::cin >> input)
         {
-            std::cin.ignore(10000, '\n'); 
+            std::cin.ignore(10000, '\n');
             return input;
         }
         std::cin.clear();
