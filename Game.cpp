@@ -54,7 +54,6 @@ void waitForEnter()
     std::cout << "\n"
               << YELLOW << "[Press ENTER to continue...]\n"
               << RESET;
-    std::cin.ignore(10000, '\n');
     std::cin.get();
 }
 
@@ -272,23 +271,25 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
                 std::string itemName;
                 int itemStat;
 
+                std::string floorTag = "(F" + std::to_string(player.getFloor()) + ")";
+
                 if (roll == 0)
                 {
-                    itemName = "Vial of Crimson Blood";
+                    itemName = floorTag + " Vial of Crimson Blood"; 
                     itemStat = 25 + (player.getFloor() * 5);
                     player.addItem(std::make_unique<Potion>(itemName, itemStat));
                     std::cout << "Inside lies a '" << itemName << "'. It smells faintly of iron.\n";
                 }
                 else if (roll == 1)
                 {
-                    itemName = "Rusted Iron Blade";
+                    itemName = floorTag +" Rusted Iron Blade";
                     itemStat = 3 + (player.getFloor() * 2);
                     player.addItem(std::make_unique<Weapon>(itemName, itemStat));
                     std::cout << "You pull out a '" << itemName << "'. It looks heavy and cruel.\n";
                 }
                 else if (roll == 2)
                 {
-                    itemName = "Tattered Leather Rags";
+                    itemName = floorTag +" Tattered Leather Rags";
                     itemStat = 1 + (player.getFloor() * 1);
                     player.addItem(std::make_unique<Accessories>(itemName, itemStat));
                     std::cout << "You find '" << itemName << "'. It's still stained from its previous owner.\n";
