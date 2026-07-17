@@ -71,12 +71,6 @@ Následně hru spusťte příkazem:
 * Na Windows: `.\rpg.exe`
 * Na Linuxu/macOS: `./rpg.exe`
 
-### C. Sestavení pomocí nástroje Make
-
-Pokud máte v systému nainstalovaný nástroj Make, stačí v terminálu zadat:
-
-    make
-
 ---
 
 ## 🎮 Ovládání hry
