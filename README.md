@@ -7,7 +7,7 @@ Hra klade důraz na atmosféru, nekompromisní souboje (permadeath), správu inv
 
 ---
 
-## 🌟 Hlavní vlastnosti (Features)
+## 🌟 Hlavní vlastnosti
 
 * **Generování dungeonu a mapy:** Podzemí se skládá ze 100 pater, která se dynamicky načítají z externího souboru `maps.txt`.
 * **Taktický soubojový systém:** Tahové souboje proti nestvůrám s využitím základního útoku a riskantní **Krvavé magie (Blood Magic)**. Ta výměnou za hrdinovu vlastní HP uděluje nepříteli absolutní poškození (True Damage) ignorující jakoukoliv obranu.
@@ -44,7 +44,7 @@ Projekt striktně dodržuje principy objektově orientovaného programování (O
 
 ---
 
-## ⚙️ Požadavky a závislosti (Dependencies)
+## ⚙️ Požadavky a závislosti
 
 Projekt nevyžaduje **žádné externí ani nestandardní knihovny**. 
 * **Překladač:** Jakýkoliv překladač s podporou standardu **C++14** nebo vyššího (např. `g++` / GCC, MSVC, Clang).
