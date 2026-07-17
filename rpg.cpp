@@ -19,7 +19,7 @@ int main()
     srand(time(NULL));
 
     std::cout << "\n\n**********************************\n";
-    std::cout << "  Welcome to Dungeon Crawler \n";
+    std::cout << "Welcome to Dungeon Crawler \n";
     std::cout << "**********************************\n\n";
 
     std::vector<std::vector<std::string>> loadedMaps = loadMaps("maps.txt");

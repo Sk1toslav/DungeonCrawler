@@ -408,3 +408,22 @@ void dungeon(Hero &player, std::vector<std::vector<std::string>> &allMaps, std::
         }
     }
 }
+
+template <typename T>
+T getSafeInput(const std::string &prompt)
+{
+    T input;
+    while (true)
+    {
+        std::cout << RESET << prompt;
+        if (std::cin >> input)
+        {
+            std::cin.ignore(10000, '\n');
+            return input;
+        }
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        std::cout << RED << "ERROR: Wrong input format! Try again.\n"
+                  << RESET;
+    }
+}
