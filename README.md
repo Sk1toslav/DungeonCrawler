@@ -65,7 +65,7 @@ Projekt obsahuje předpřipravený soubor `tasks.json` pro překladač GCC (`ucr
 
 V terminálu otevřete složku s projektem a zadejte:
 
-    g++ -std=c++14 -Wall rpg.cpp Game.cpp Hero.cpp Enemy.cpp Character.cpp Item.cpp SaveLoad.cpp -o rpg.exe
+    g++ rpg.cpp Game.cpp Hero.cpp Enemy.cpp Character.cpp Item.cpp SaveLoad.cpp -o rpg.exe
 
 Následně hru spusťte příkazem:
 * Na Windows: `.\rpg.exe`
