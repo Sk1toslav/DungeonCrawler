@@ -1,5 +1,5 @@
 Markdown
-# ⚔️ Dungeon Crawler
+# Dungeon Crawler
 
 Dungeon Crawler je temná, plně objektová RPG hra v konzoli napsaná v moderním C++. Hráč se ujímá role hrdiny, který sestupuje do nebezpečného podzemního labyrintu o 100 patrech s jediným cílem – porazit finálního bosse jménem *Carnage, THE RED DRAGON*.
 
@@ -7,7 +7,7 @@ Hra klade důraz na atmosféru, nekompromisní souboje (permadeath), správu inv
 
 ---
 
-## 🌟 Hlavní vlastnosti
+## Hlavní vlastnosti
 
 * **Generování dungeonu a mapy:** Podzemí se skládá ze 100 pater, která se dynamicky načítají z externího souboru `maps.txt`.
 * **Taktický soubojový systém:** Tahové souboje proti nestvůrám s využitím základního útoku a riskantní **Krvavé magie (Blood Magic)**. Ta výměnou za hrdinovu vlastní HP uděluje nepříteli absolutní poškození (True Damage) ignorující jakoukoliv obranu.
@@ -18,7 +18,7 @@ Hra klade důraz na atmosféru, nekompromisní souboje (permadeath), správu inv
 
 ---
 
-## 🏗️ Architektura projektu a OOP principy
+## Architektura projektu a OOP principy
 
 Projekt striktně dodržuje principy objektově orientovaného programování (OOP) a moderní standardy jazyka C++:
 
@@ -31,7 +31,7 @@ Projekt striktně dodržuje principy objektově orientovaného programování (O
 
 ---
 
-## 📁 Struktura souborů
+## Struktura souborů
 
 * `rpg.cpp` – Hlavní smyčka programu, úvodní menu a zpracování uživatelského vstupu.
 * `Game.h` / `Game.cpp` – Logika vykreslování mapy, pohyb v patře, interakce s políčky a soubojový cyklus (`encounter`).
@@ -44,7 +44,7 @@ Projekt striktně dodržuje principy objektově orientovaného programování (O
 
 ---
 
-## ⚙️ Požadavky a závislosti
+## Požadavky a závislosti
 
 Projekt nevyžaduje **žádné externí ani nestandardní knihovny**. 
 * **Překladač:** Jakýkoliv překladač s podporou standardu **C++14** nebo vyššího (např. `g++` / GCC, MSVC, Clang).
@@ -52,7 +52,7 @@ Projekt nevyžaduje **žádné externí ani nestandardní knihovny**.
 
 ---
 
-## 🚀 Návod k sestavení a spuštění
+## Návod k sestavení a spuštění
 
 ### A. Sestavení pomocí Visual Studio Code (Doporučeno)
 
@@ -73,7 +73,7 @@ Následně hru spusťte příkazem:
 
 ---
 
-## 🎮 Ovládání hry
+## Ovládání hry
 
 ### Hlavní menu
 * **`N`** – Spuštění nové hry (vyžádá si zadání jména hrdiny).
@@ -94,7 +94,7 @@ Následně hru spusťte příkazem:
 
 ---
 
-## 🗺️ Modding: Vlastní mapy podzemí
+## Modding: Vlastní mapy podzemí
 
 Hra umožňuje plné přizpůsobení mapových podkladů úpravou souboru **`maps.txt`**. Každá mapa je tvořena mřížkou ASCII znaků a jednotlivá patra jsou od sebe oddělena samostatným řádkem obsahujícím pouze znak pomlčky (`-`).
 
